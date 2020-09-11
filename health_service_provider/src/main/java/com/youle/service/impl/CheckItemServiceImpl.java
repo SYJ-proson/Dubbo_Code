@@ -32,4 +32,23 @@ public class CheckItemServiceImpl implements CheckItemService {
         PageResult pageResult = new PageResult(page.getTotal(),page.getResult());
         return pageResult;
     }
+
+    @Override
+    public void delete(Integer id) {
+        Integer count = checkItemDao.findCountByCheckItemId(id);
+        if (count > 0) {
+            throw new RuntimeException("当前检查项被引用，不能删除");
+        }
+        checkItemDao.delete(id);
+    }
+
+    @Override
+    public CheckItem findById(Integer id) {
+        return checkItemDao.findById(id);
+    }
+
+    @Override
+    public void update(CheckItem checkItem) {
+        checkItemDao.update(checkItem);
+    }
 }

@@ -27,7 +27,7 @@
                 <div class="box">
                     <div class="filter-container">
                         <el-input placeholder="项目编码/项目名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item"></el-input>
-                        <el-button @click="findPage()" class="dalfBut">查询</el-button>
+                        <el-button @click="findPage()" v-model="pagination.currentPage=1" class="dalfBut">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
                     <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
@@ -230,6 +230,26 @@
             methods: {
                 //编辑
                 handleEdit() {
+                    this.$refs["dataEditForm"].validate((valid)=>{
+                        if (valid) {
+                            axios.post("/checkitem/update.do", this.formData).then((res) => {
+                                this.dialogFormVisible4Edit = false;
+                                if (res.data.flags) {
+                                    this.$message({
+                                        message: res.data.message,
+                                        type: "success"
+                                    });
+                                } else {
+                                    this.$message.error(res.data.message);
+                                }
+                            }).finally(()=>{
+                                this.findPage();
+                            });
+                        } else {
+                            this.$message("表单检验失败");
+                            return false;
+                        }
+                    })
                 },
                 //添加
                 handleAdd () {
@@ -239,7 +259,6 @@
                             axios.post("/checkitem/add.do",this.formData).then((res)=>{
                                 if (res.data.flag){
                                     this.dialogFormVisible = false;
-                                    this.findPage();
                                     this.$message({
                                         message:res.data.message,
                                         type:"success;"
@@ -248,7 +267,9 @@
                                     this.$message.error(res.data.message);
                                     this.dialogFormVisible = false;
                                 }
-                            })
+                            }).finally(()=>{
+                                this.findPage();
+                            });
                         }else {
                             this.$message.error("数据校验失败，请检查输入信息的正确性！！");
                             return false;
@@ -278,7 +299,14 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
-                    this.dialogFormVisible4Edit = true;
+                    axios.get("/checkitem/findById.do?id="+row.id).then((res)=>{
+                        if (res.data.flag) {
+                            this.dialogFormVisible4Edit = true;
+                            this.formData = res.data.data;
+                        }else {
+                            this.$message.error(res.data.message);
+                        }
+                    })
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
@@ -287,6 +315,20 @@
                 },
                 // 删除
                 handleDelete(row) {
+                    this.$confirm("确认删除吗？","提示",{type:"warning"}).then(()=>{
+                        axios.get("/checkitem/delete.do?id="+row.id).then((res)=>{
+                            if (res.data.flag){
+                                this.$message({
+                                    message:res.data.message,
+                                    type: "success"
+                                })
+                            }else {
+                                this.$message.error(res.data.message)
+                            }
+                        }).finally(()=>{
+                            this.findPage();
+                        });
+                    })
                 }
             }
         })

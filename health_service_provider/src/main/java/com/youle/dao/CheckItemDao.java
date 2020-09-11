@@ -11,4 +11,12 @@ public interface CheckItemDao {
     public void add(CheckItem checkItem);
 
     public Page<CheckItem> findPageList(String queryString);
+
+    public void delete(Integer id);
+
+    public Integer findCountByCheckItemId(Integer id);
+
+    public CheckItem findById(Integer id);
+
+    public void update(CheckItem checkItem);
 }
