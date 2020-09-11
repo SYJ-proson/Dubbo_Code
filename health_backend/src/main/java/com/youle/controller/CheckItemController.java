@@ -11,20 +11,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/checkitem")
-public class CheckitemController {
+public class CheckItemController {
 
     @Reference
     private CheckItemService checkitemService;
 
     @RequestMapping("/add")
-    public Result add(@RequestBody CheckItem checkItem){
+    public Result add(@RequestBody CheckItem checkItem) {
         try {
             checkitemService.add(checkItem);
         } catch (Exception e) {
             e.printStackTrace();
-            return new Result(false,MessageConstant.ADD_CHECKITEM_FAIL);
+            return new Result(false, MessageConstant.ADD_CHECKITEM_FAIL);
         }
         return new Result(true, MessageConstant.ADD_CHECKITEM_SUCCESS);
     }
@@ -43,14 +45,14 @@ public class CheckitemController {
             e.printStackTrace();
             return new Result(false, MessageConstant.DELETE_CHECKITEM_FAIL);
         }
-        return new Result(false,MessageConstant.DELETE_CHECKITEM_SUCCESS);
+        return new Result(false, MessageConstant.DELETE_CHECKITEM_SUCCESS);
     }
 
     @RequestMapping("/findById")
     public Result findById(Integer id) {
         try {
             CheckItem checkItem = checkitemService.findById(id);
-            return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,checkItem);
+            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, checkItem);
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
@@ -65,6 +67,15 @@ public class CheckitemController {
             e.printStackTrace();
             return new Result(false, MessageConstant.EDIT_CHECKITEM_FAIL);
         }
-        return new Result(true,MessageConstant.EDIT_CHECKITEM_SUCCESS);
+        return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);
+    }
+
+    @RequestMapping("/findAll")
+    public Result findAll() {
+        List<CheckItem> list = checkitemService.findAll();
+        if (list != null && list.size() > 0) {
+            return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, list);
+        }
+        return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
     }
 }

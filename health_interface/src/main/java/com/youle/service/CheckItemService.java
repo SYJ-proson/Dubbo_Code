@@ -4,6 +4,8 @@ import com.youle.entity.PageResult;
 import com.youle.entity.QueryPageBean;
 import com.youle.pojo.CheckItem;
 
+import java.util.List;
+
 public interface CheckItemService {
 
     public void add(CheckItem checkItem);
@@ -15,4 +17,6 @@ public interface CheckItemService {
     public CheckItem findById(Integer id);
 
     public void update(CheckItem checkItem);
+
+    public List<CheckItem> findAll();
 }

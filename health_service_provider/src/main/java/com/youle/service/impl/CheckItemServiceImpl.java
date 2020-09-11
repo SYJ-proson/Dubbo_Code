@@ -51,4 +51,9 @@ public class CheckItemServiceImpl implements CheckItemService {
     public void update(CheckItem checkItem) {
         checkItemDao.update(checkItem);
     }
+
+    @Override
+    public List<CheckItem> findAll() {
+        return checkItemDao.findAll();
+    }
 }
