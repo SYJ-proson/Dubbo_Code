@@ -13,10 +13,15 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
     <!-- 事务管理器	-->
-    <bean id="transactionManager"
-
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <property name="username" value="root" />
+        <property name="password" value="root" />
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/health" />
     </bean>
     <!--
     开启事务控制的注解支持
@@ -24,6 +29,5 @@
     需要进行事务控制，会由Spring框架产生代理对象，
     Dubbo需要将Service发布为服务，要求必须使用cglib创建代理对象。
     -->
-    <tx:annotation-driven transaction-manager="transactionManager"
-                          proxy-target-class="true"/>
+    <tx:annotation-driven transaction-manager="transactionManager"  proxy-target-class="true"/>
 </beans>

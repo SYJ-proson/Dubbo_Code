@@ -225,6 +225,7 @@
             },
             //钩子函数，VUE对象初始化完成后自动执行
             created() {
+                this.findPage();
             },
             methods: {
                 //编辑
@@ -232,21 +233,57 @@
                 },
                 //添加
                 handleAdd () {
+                    this.$refs["dataAddForm"].validate((valid)=>{
+                        alert(this.formData);
+                        if (valid){
+                            axios.post("/checkitem/add.do",this.formData).then((res)=>{
+                                if (res.data.flag){
+                                    this.dialogFormVisible = false;
+                                    this.findPage();
+                                    this.$message({
+                                        message:res.data.message,
+                                        type:"success;"
+                                    })
+                                }else {
+                                    this.$message.error(res.data.message);
+                                    this.dialogFormVisible = false;
+                                }
+                            })
+                        }else {
+                            this.$message.error("数据校验失败，请检查输入信息的正确性！！");
+                            return false;
+                        }
+                    });
                 },
                 //分页查询
                 findPage() {
+                    var param = {
+                        currentPage:this.pagination.currentPage,//页码
+                        pageSize:this.pagination.pageSize,//每页显示的记录数
+                        queryString:this.pagination.queryString//查询条件
+                    };
+                    axios.post("/checkitem/findPage.do",param).then((res)=>{
+                        this.pagination.total = res.data.total;
+                        this.dataList = res.data.rows;
+                    })
                 },
                 // 重置表单
                 resetForm() {
+                    this.formData = {};
                 },
                 // 弹出添加窗口
                 handleCreate() {
+                    this.dialogFormVisible = true;
+                    this.resetForm();
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    this.dialogFormVisible4Edit = true;
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    this.pagination.currentPage = currentPage;
+                    this.findPage();
                 },
                 // 删除
                 handleDelete(row) {
