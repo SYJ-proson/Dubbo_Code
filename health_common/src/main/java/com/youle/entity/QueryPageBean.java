@@ -33,4 +33,13 @@ public class QueryPageBean implements Serializable{
     public void setQueryString(String queryString) {
         this.queryString = queryString;
     }
+
+    @Override
+    public String toString() {
+        return "QueryPageBean{" +
+                "currentPage=" + currentPage +
+                ", pageSize=" + pageSize +
+                ", queryString='" + queryString + '\'' +
+                '}';
+    }
 }

@@ -12,4 +12,46 @@
     <insert id="setCheckGroupAndCheckItem" parameterType="java.util.Map">
         insert into t_checkgroup_checkitem(checkgroup_id,checkitem_id) values (#{checkgroup_id},#{checkitem_id})
     </insert>
+
+    <select id="selectByCondition" parameterType="java.lang.String" resultType="com.youle.pojo.CheckGroup">
+        select * from t_checkgroup
+        <if test="value != null and value.length > 0">
+            where code = #{value} or name = #{value}
+        </if>
+    </select>
+
+    <select id="findById" parameterType="java.lang.Integer" resultType="com.youle.pojo.CheckGroup">
+        select * from t_checkgroup where id = #{id};
+    </select>
+
+    <select id="findCheckItemIdsByCheckGroupId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </select>
+
+    <delete id="deleteAssociation" parameterType="java.lang.Integer">
+        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </delete>
+
+    <update id="edit" parameterType="com.youle.pojo.CheckGroup">
+        update t_checkgroup
+        <set>
+            <if test="name != null"> name = #{name},
+            </if>
+            <if test="sex != null"> sex = #{sex},
+            </if>
+            <if test="code != null"> code = #{code},
+            </if>
+            <if test="helpCode != null"> helpCode = #{helpCode},
+            </if>
+            <if test="attention != null"> attention = #{attention},
+            </if>
+            <if test="remark != null"> remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from t_checkgroup where id = #{id}
+    </delete>
 </mapper>
