@@ -20,4 +20,22 @@
             where code = #{value} or name = #{value}
         </if>
     </select>
+
+    <select id="findCheckGroupIdsBySetmealId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id}
+    </select>
+
+    <delete id="deleteAssociation" parameterType="java.lang.Integer">
+        delete from t_setmeal_checkgroup where setmeal_id = #{id}
+    </delete>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from t_setmeal where id = #{id}
+    </delete>
+
+    <update id="edit" parameterType="com.youle.pojo.Setmeal">
+        update t_setmeal set code = #{code},name = #{name},sex = #{sex},age = #{age},
+        helpCode = #{helpCode},price = #{price},remark = #{remark},attention = #{attention},img = #{img}
+        where id = #{id}
+    </update>
 </mapper>
