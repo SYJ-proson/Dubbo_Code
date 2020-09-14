@@ -60,6 +60,11 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         checkGroupDao.delete(id);
     }
 
+    @Override
+    public List<CheckGroup> findAll() {
+        return checkGroupDao.findAll();
+    }
+
     public void setCheckGroupAndCheckItem(Integer checkGroupId,Integer[] checkitemIds) {
         if (checkitemIds.length > 0 && checkitemIds != null) {
             for (int i = 0; i < checkitemIds.length; i++) {
