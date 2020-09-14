@@ -59,6 +59,11 @@ public class SetmealServiceImpl implements SetmealService {
         setmealDao.delete(id);
     }
 
+    @Override
+    public Setmeal findById(Integer id) {
+        return setmealDao.findById(id);
+    }
+
     public void setSetmealAndCheckGroup(Integer[] checkgroupIds, Integer setmealId) {
         if (checkgroupIds.length > 0 && checkgroupIds != null) {
             for (int i = 0; i < checkgroupIds.length; i++) {

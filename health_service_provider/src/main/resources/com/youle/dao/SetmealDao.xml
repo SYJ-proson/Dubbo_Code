@@ -38,4 +38,8 @@
         helpCode = #{helpCode},price = #{price},remark = #{remark},attention = #{attention},img = #{img}
         where id = #{id}
     </update>
+
+    <select id="findById" parameterType="java.lang.Integer" resultType="com.youle.pojo.Setmeal">
+        select * from t_setmeal where id = #{id}
+    </select>
 </mapper>

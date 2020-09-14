@@ -14,10 +14,7 @@
             http://www.springframework.org/schema/context/spring-context.xsd">
     <context:annotation-config></context:annotation-config>
     <bean id="clearImgJob" class="com.youle.jobs.ClearImgJob"></bean>
-    <bean id="jobDetail"
-
-
-          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean  ">
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean  ">
         <!-- 注入目标对象 -->
         <property name="targetObject" ref="clearImgJob"/>
         <!-- 注入目标方法 -->
@@ -29,7 +26,7 @@
         <property name="jobDetail" ref="jobDetail"/>
         <!-- 指定触发的时间，基于Cron表达式 -->
         <property name="cronExpression">
-            <value>0 0 2 * * ?</value>
+            <value>0/30 * * * * ?</value>
         </property>
     </bean>
     <!-- 注册一个统一的调度工厂，通过这个调度工厂调度任务 -->

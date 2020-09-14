@@ -24,4 +24,6 @@ public interface SetmealDao {
     public void deleteAssociation(Integer id);
 
     public void delete(Integer id);
+
+    public Setmeal findById(Integer id);
 }
