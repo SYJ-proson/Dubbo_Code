@@ -78,4 +78,15 @@ public class CheckItemController {
         }
         return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
     }
+
+    @RequestMapping("/deleteAll")
+    public Result deleteAll(Integer[] checkItemIds) {
+        try {
+            checkitemService.deleteAll(checkItemIds);
+            return new Result(false, MessageConstant.DELETE_SETMEAL_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.DELETE_SETMEAL_FAIL);
+        }
+    }
 }

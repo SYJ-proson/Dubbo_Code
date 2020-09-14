@@ -56,4 +56,11 @@ public class CheckItemServiceImpl implements CheckItemService {
     public List<CheckItem> findAll() {
         return checkItemDao.findAll();
     }
+
+    @Override
+    public void deleteAll(Integer[] checkItemIds) {
+        for (int i = 0; i < checkItemIds.length; i++) {
+            checkItemDao.delete(checkItemIds[i]);
+        }
+    }
 }

@@ -105,4 +105,15 @@ public class SetmealController {
             return new Result(false, MessageConstant.DELETE_SETMEAL_FAIL);
         }
     }
+
+    @RequestMapping("/deleteAll")
+    public Result deleteAll(Integer[] setMealIds) {
+        try {
+            setmealService.deleteAll(setMealIds);
+            return new Result(false, MessageConstant.DELETE_SETMEAL_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.DELETE_SETMEAL_FAIL);
+        }
+    }
 }

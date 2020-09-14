@@ -21,4 +21,6 @@ public interface CheckGroupService {
     public void delete(Integer id);
 
     public List<CheckGroup> findAll();
+
+    public void deleteAll(Integer[] checkGroupIds);
 }

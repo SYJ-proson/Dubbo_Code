@@ -54,11 +54,13 @@
             <div class="app-container">
                 <div class="box">
                     <div class="filter-container">
+                        <el-button type="primary" class="butT" @click="handleDeleteAll()">批量删除</el-button>
                         <el-input placeholder="编码/名称/助记码" v-model="pagination.queryString" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter"></el-input>
                         <el-button @click="pagination.currentPage=1,findPage()" class="dalfBut">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
-                    <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
+                    <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row ref="multipleTable" @selection-change="handleSelectionChange">
+                        <el-table-column type="selection"></el-table-column>
                         <el-table-column type="index" align="center" label="序号"></el-table-column>
                         <el-table-column prop="code" label="检查组编码" align="center"></el-table-column>
                         <el-table-column prop="name" label="检查组名称" align="center"></el-table-column>
@@ -269,6 +271,8 @@
                     total:100,
                     queryString:null,
                 },
+                checkGroupIds:[],
+                multipleSelection:[],
                 dataList: [],//列表数据
                 formData: {},//表单数据
                 tableData:[],//新增和编辑表单中对应的检查项列表数据
@@ -387,6 +391,30 @@
                             }
                         }).finally(()=>{
                             this.findPage();
+                        });
+                    });
+                },
+
+                handleSelectionChange(val) {
+                    this.multipleSelection = val;
+                },
+                handleDeleteAll() {
+                    this.$confirm("确定删除选中的全部吗？","提示",{type:"warning"}).then(()=>{
+                        for (var i = 0; i < this.multipleSelection.length; i++) {
+                            this.checkGroupIds.push(this.multipleSelection[i].id);
+                        }
+                        axios.post("/checkgroup/deleteAll.do?checkGroupIds="+this.checkGroupIds).then((res)=>{
+                            if (res.data.flag) {
+                                this.$message({
+                                    message: res.data.message,
+                                    type: "success"
+                                });
+                            } else {
+                                this.$message.error(res.data.message);
+                            }
+                        }).finally(()=>{
+                            this.findPage();
+                            this.checkGroupIds = [];
                         });
                     });
                 }

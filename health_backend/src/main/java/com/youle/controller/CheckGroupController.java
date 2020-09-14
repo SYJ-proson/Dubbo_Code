@@ -87,4 +87,15 @@ public class CheckGroupController {
         }
         return new Result(false,MessageConstant.QUERY_CHECKGROUP_FAIL);
     }
+
+    @RequestMapping("/deleteAll")
+    public Result deleteAll(Integer[] CheckGroupIds) {
+        try {
+            checkGroupService.deleteAll(CheckGroupIds);
+            return new Result(false, MessageConstant.DELETE_SETMEAL_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.DELETE_SETMEAL_FAIL);
+        }
+    }
 }

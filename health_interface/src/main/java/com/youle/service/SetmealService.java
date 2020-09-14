@@ -20,4 +20,6 @@ public interface SetmealService {
     public void delete(Integer id);
 
     public Setmeal findById(Integer id);
+
+    public void deleteAll(Integer[] setMealIds);
 }

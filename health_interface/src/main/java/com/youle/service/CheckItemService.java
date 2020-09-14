@@ -19,4 +19,6 @@ public interface CheckItemService {
     public void update(CheckItem checkItem);
 
     public List<CheckItem> findAll();
+
+    public void deleteAll(Integer[] checkItemIds);
 }
