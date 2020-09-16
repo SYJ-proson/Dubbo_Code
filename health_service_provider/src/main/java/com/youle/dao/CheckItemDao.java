@@ -21,4 +21,6 @@ public interface CheckItemDao {
     public void update(CheckItem checkItem);
 
     public List<CheckItem> findAll();
+
+    public List<CheckItem> findByCheckGroupId(Integer checkGroupId);
 }
