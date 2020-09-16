@@ -22,4 +22,6 @@ public interface SetmealService {
     public Setmeal findById(Integer id);
 
     public void deleteAll(Integer[] setMealIds);
+
+    public List<Setmeal> findAll();
 }

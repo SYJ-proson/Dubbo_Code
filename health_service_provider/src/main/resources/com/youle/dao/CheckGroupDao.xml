@@ -58,4 +58,8 @@
     <select id="findAll" resultType="com.youle.pojo.CheckGroup">
         select * from t_checkgroup;
     </select>
+
+    <select id="findBySetmealId" parameterType="java.lang.Integer" resultType="com.youle.pojo.CheckGroup">
+        select * from t_checkgroup where id in(select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{setmealId})
+    </select>
 </mapper>

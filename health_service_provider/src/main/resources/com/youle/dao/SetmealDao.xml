@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.youle.dao.SetmealDao" >
+    
+    <resultMap id="SetmealCheckGroupMap" type="com.youle.pojo.Setmeal">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="code" column="code"></result>
+        <result property="helpCode" column="helpCode"></result>
+        <result property="sex" column="sex"></result>
+        <result property="age" column="age"></result>
+        <result property="price" column="price"></result>
+        <result property="remark" column="remark"></result>
+        <result property="attention" column="attention"></result>
+        <result property="img" column="img"></result>
+        <collection property="checkGroups" ofType="java.util.List" column="id" select="com.youle.dao.CheckGroupDao.findBySetmealId"></collection>
+    </resultMap>
+    
     <!--新增-->
     <insert id="add" parameterType="com.youle.pojo.Setmeal">
         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
@@ -39,7 +54,11 @@
         where id = #{id}
     </update>
 
-    <select id="findById" parameterType="java.lang.Integer" resultType="com.youle.pojo.Setmeal">
+    <select id="findById" parameterType="java.lang.Integer" resultMap="SetmealCheckGroupMap">
         select * from t_setmeal where id = #{id}
+    </select>
+
+    <select id="findAll" resultType="com.youle.pojo.Setmeal">
+        select * from t_setmeal
     </select>
 </mapper>

@@ -71,6 +71,11 @@ public class SetmealServiceImpl implements SetmealService {
         }
     }
 
+    @Override
+    public List<Setmeal> findAll() {
+        return setmealDao.findAll();
+    }
+
     public void setSetmealAndCheckGroup(Integer[] checkgroupIds, Integer setmealId) {
         if (checkgroupIds.length > 0 && checkgroupIds != null) {
             for (int i = 0; i < checkgroupIds.length; i++) {

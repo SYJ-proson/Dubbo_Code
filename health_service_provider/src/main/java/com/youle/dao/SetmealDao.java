@@ -26,4 +26,6 @@ public interface SetmealDao {
     public void delete(Integer id);
 
     public Setmeal findById(Integer id);
+
+    public List<Setmeal> findAll();
 }
