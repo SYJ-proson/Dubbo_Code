@@ -20,4 +20,16 @@
     <select id="getOrderSettingByMonth" parameterType="java.util.Map" resultType="com.youle.pojo.OrderSetting">
         select * from t_ordersetting where orderDate between #{startDate} and #{endDate}
     </select>
+
+    <update id="editOrder" parameterType="java.util.Date">
+        update t_ordersetting set number  = number - 1 ,reservations = reservations + 1 where orderDate = #{orderDate}
+    </update>
+
+    <select id="findNumberByDate" resultType="java.lang.Integer" parameterType="java.util.Date">
+        select number from t_ordersetting where orderDate = #{date}
+    </select>
+
+    <select id="findReservationsByDate" parameterType="java.util.Date" resultType="java.lang.Integer">
+        select reservations from t_ordersetting where orderDate = #{date}
+    </select>
 </mapper>
