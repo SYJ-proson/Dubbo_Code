@@ -32,4 +32,17 @@ public class ValidateCodeController {
         jedisPool.getResource().setex(telephone + RedisMessageConstant.SENDTYPE_ORDER, 300, code.toString());
         return new Result(true, MessageConstant.SEND_VALIDATECODE_SUCCESS);
     }
+
+    @RequestMapping("/send4Login")
+    public Result send4Login(String telephone) {
+        Integer validateCode = ValidateCodeUtils.generateValidateCode(6);
+        try {
+            SMSUtils.sendShortMessage(SMSUtils.VALIDATE_CODE, telephone, validateCode.toString());
+        } catch (ClientException e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.SEND_VALIDATECODE_FAIL);
+        }
+        jedisPool.getResource().setex(telephone + RedisMessageConstant.SENDTYPE_LOGIN, 300, validateCode.toString());
+        return new Result(true, MessageConstant.SEND_VALIDATECODE_SUCCESS);
+    }
 }
